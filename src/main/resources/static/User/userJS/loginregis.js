@@ -15,9 +15,10 @@ myapp.controller("ctrlLogin",function($scope, $http,$timeout){
         var mytimeout = $timeout($scope.onTimeout,1000);
         if($scope.counter == 0){
             $timeout.cancel(mytimeout);
-            $scope.counter ="Mã OTP đã hết hiệu lực";
+                $scope.message = "Mã OTP đã hết hiệu lực";
+            $scope.counter =60;
             $http.get(`http://localhost:8080/send/removeSession`).then(resp => {
-            });
+            });          
         }
     }
 
@@ -125,16 +126,16 @@ myapp.controller("ctrlLogin",function($scope, $http,$timeout){
     $scope.sendMail = function(){
         Toast.fire({
             icon: 'success',
-            title: 'T-MART Đang gửi mã OTP về Gmail của bạn',
+            title: 'TVTS Đang gửi mã OTP về Gmail của bạn',
         })
         var  data ={
               to : $scope.formregis.email,
-              subject : "T-MART xin chào quý khách",
+              subject : "TVTS xin chào quý khách",
               body : "day la body"
         }
         $http.post(`http://localhost:8080/send/otptest`,data).then(resp => {
              Swal.fire(
-                'T-MART',
+                'TVTS',
                 'Quý Khác xin vui lòng xác nhận Gmail!!',
                 'success'
             )
@@ -151,18 +152,18 @@ myapp.controller("ctrlLogin",function($scope, $http,$timeout){
            if(vnf_regex.test($scope.otp.emailForgot)){
             Toast.fire({
                 icon: 'success',
-               title: 'T-MART Đang gửi mã OTP về Gmail của bạn',
+               title: 'TVTS Đang gửi mã OTP về Gmail của bạn',
                })
             var  data ={
                 to : $scope.otp.emailForgot,
-                 subject : "T-MART gửi cho bạn",
+                 subject : "TVTS gửi cho bạn",
                   body : "day la body"
             }
         
             $http.post(`http://localhost:8080/send/otp-forgot`,data).then(resp => {
              
             Swal.fire(
-                'T-MART',
+                'TVTS',
                 'Quý Khác xin vui lòng xác nhận Gmail!!',
                 'success'
               )
@@ -176,7 +177,7 @@ myapp.controller("ctrlLogin",function($scope, $http,$timeout){
            else{
             Swal.fire(
                 'Hệ Thống',
-                'Nhập đúng gmail để T-MART có thể gửi mã OTP cho bạn',
+                'Nhập đúng gmail để TVTS có thể gửi mã OTP cho bạn',
                 'error'
               )
            }

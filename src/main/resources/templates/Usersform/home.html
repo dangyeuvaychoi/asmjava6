@@ -49,37 +49,43 @@
                 <!-- End Product MEnu -->
                 <div class="row">
                     <div class="product__list another-product-style">
-                        <div class="col-md-3 single__pro col-lg-3 col-sm-4 col-xs-12 cat--3"
+                        <div class="col-md-3  "
                             style="display: block; max-width: 300px; max-height: 440px; width: 300px; height: 440px; "
                             ng-repeat="item in page.items | filter:name">
                            
                             <div class="product">
                                 <div class="product__inner">
                                     <div class="pro__thumb">
-                                        <a style="display: block;">
-                                            <img ng-src="{{'https://firebasestorage.googleapis.com/v0/b/webstorbook.appspot.com/o/'+item.image+ '?alt=media&token=155d6665-5e02-42e7-9b7b-f22eb82799fa'}}"
+                                        <a style="display: block;">            
+                                                  <img ng-src="{{'https://firebasestorage.googleapis.com/v0/b/poly-java-6-30660.appspot.com/o/'+item.image+ '?alt=media&token=bbcaff34-d034-4109-b8e4-e45086d14d37'}}"
                                                 style="display: block; max-width: 270px; max-height: 270px; width: 270px; height: 270px;"
                                                 alt="product images"
-                                                class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}">
+                                                class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" loading="lazy">
                                         </a>
                                     </div>
-                                    <th:block th:if="${#request.isUserInRole('USER')}">
+                                   
                                         <div class="product__hover__info">
                                             <span class="hidden" id="username">[[${#request.remoteUser}]]</span>
                                             <ul class="product__action">
                                                 <li><a data-toggle="modal" data-target="#productModal"
-                                                        ng-click="views(item.productID)" title="Quick View"
+                                                        ng-click="views(item.productID)" title="Chi tiết"
                                                         class="quick-view modal-view detail-link"><span
-                                                            class="ti-plus"></span></a></li>
+                                                            class="ti-eye"></span></a></li>
+                                                            
                                                 <li><a title="Add TO Cart"
                                                         th:attr="ng-click=@{|cart.add(item.productID)|}"><span
                                                             class="ti-shopping-cart"></span></a></li>
                                                 <li><a title="Wishlist" href="/wishlist"><span
                                                             class="ti-heart"></span></a></li>
+                                                           
                                             </ul>
                                         </div>
-                                    </th:block>
-                                    <th:block th:unless="${#request.isUserInRole('USER')}">
+                                   
+                                    
+                                    
+                                    <!--      cấu trúc kiểm tra điều kiện trong Thymeleaf. Nội dung bên trong thẻ <th:block> 
+              chỉ được thực hiện khi điều kiện ${#request.isUserInRole('USER')} là đúng, tức là người dùng hiện tại có vai trò "USER".     -->
+                                 <!--    <th:block th:unless="${#request.isUserInRole('USER')}">
                                         <div class="product__hover__info">
                                             <ul class="product__action" style="color: red;">
                                                 <a href="/auth/login/form">Chưa Đăng Nhập</a>
@@ -87,6 +93,7 @@
                                         </div>
 
                                     </th:block>
+                                     -->
                                 </div>
                                 <div class="product__details">
                                     <h2><a>{{item.name}}</a></h2>
@@ -126,10 +133,11 @@
                                         <!-- Start product images -->
                                         <div class="product-images">
                                             <div class="main-image images">
-                                                <img alt="big images"
-                                                    ng-src="{{'https://firebasestorage.googleapis.com/v0/b/uploadimagesjava6.appspot.com/o/'+show.image + '?alt=media&token=155d6665-5e02-42e7-9b7b-f22eb82799fa'}}"
-                                                    class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}"
-                                                    style="display: block; max-width: 600px; max-height: 600px; width: 600px; height: 600px;">
+                                                  
+                                                     <img ng-src="{{'https://firebasestorage.googleapis.com/v0/b/poly-java-6-30660.appspot.com/o/'+show.image +'?alt=media&token=bbcaff34-d034-4109-b8e4-e45086d14d37'}}"
+                                                style="display: block; max-width: 270px; max-height: 270px; width: 270px; height: 270px;"
+                                                alt="product images"
+                                                class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" loading="lazy">
                                             </div>
                                         </div>
                                         <!-- end product images -->

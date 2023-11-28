@@ -5,30 +5,34 @@ myapp.controller("ctrloder",function($scope,$http){
         $scope.viewOrderingByUsername = function(){
      
             var user=$("#username").text();
-            console.log(user);
-            $http.get(`http://localhost:8080/order/Orders/${user}`).then(resitem => {
-                $scope.order = resitem.data;
-             console.log($scope.order);
-  
-            });
+             if (user) {
+        $http.get(`http://localhost:8080/order/Orders/${user}`).then(resitem => {
+            $scope.order = resitem.data;
+            console.log($scope.order);
+        });
+    } else {
+       
+        $scope.order = '';
+    }
             
         }
 //xem order da dat voi moi account
         $scope.viewOrderedByUsername = function(){
      
-            var user=$("#username").text();
-            console.log(user);
-            $http.get(`http://localhost:8080/order/Ordered/${user}`).then(resitem => {
+            var user=$("#username").text();   
+            if(user!=null){
+				  $http.get(`http://localhost:8080/order/Ordered/${user}`).then(resitem => {
                 $scope.order = resitem.data;
              console.log($scope.order);
   
-            });
-            
+            });           
+			}      
+          
         }
 //da nhan
         $scope.danhan = function(orderid){
             Swal.fire({
-                title: 'T-MART',
+                title: 'TVTS',
                 text: 'Bạn đã nhận được hàng rồi ư :)',
                 icon: 'warning',
                 showCancelButton: true,
@@ -44,7 +48,7 @@ myapp.controller("ctrloder",function($scope,$http){
                     console.log(items);
                     
                     $http.put(`http://localhost:8080/statistical/confirm/${orderid}`,items).then(respa=>{
-                        Swal.fire("Hệ Thống", "Cám ơn bạn đã tin tưởng T-MART, Chúc bạn một ngày tốt lành!", "success");
+                        Swal.fire("Hệ Thống", "Cám ơn bạn đã tin tưởng TVTS, Chúc bạn một ngày tốt lành!", "success");
                        $http.post(`http://localhost:8080/send/orders`,items).then(ressendOder=>{
                             console.log(ressendOder)
                            
@@ -65,7 +69,7 @@ myapp.controller("ctrloder",function($scope,$http){
                 
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                   Swal.fire(
-                    'T-MART',
+                    'TVTS',
                     'Lần sau cẩn thận hơn nhé :)',
                     'error'
                   )
@@ -79,7 +83,7 @@ myapp.controller("ctrloder",function($scope,$http){
 //huy don
         $scope.huydon = function(orderid){
             Swal.fire({
-                title: 'T-MART',
+                title: 'TVTS',
                 text: 'Bạn muốn hủy đơn bây giờ ư :(',
                 icon: 'warning',
                 showCancelButton: true,
@@ -114,7 +118,7 @@ myapp.controller("ctrloder",function($scope,$http){
                 
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                   Swal.fire(
-                    'T-MART',
+                    'TVTS',
                     'Lần sau cẩn thận hơn nhé :)',
                     'error'
                   )
