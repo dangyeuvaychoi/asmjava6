@@ -8,7 +8,7 @@
                         <div class="logo">
                             <a th:href="@{/home/user}">
                                 <img src="/User/images/logo/logo.png" alt="logo">
-                             </a>
+                            </a>
                         </div>
                     </div>
                     <!-- Start MAinmenu Ares -->
@@ -40,7 +40,7 @@
                         <ul class="menu-extra">
                             <li>
                                 <th:block th:if="${#request.isUserInRole('USER') or #request.isUserInRole('ADMIN')}">
-                                    <a ng-click="logout()"><i class="fas fa-sign-out-alt"></i></a>
+                                    <a ng-click="logout()"><i class="fas fa-sign-out-alt    "></i></a>
 
                                 </th:block>
                                 <th:block
@@ -77,14 +77,14 @@
                     <div class="off__contact">
                         <div class="logo">
                             <a href="/">
-                                <img src="/User/images/logo/logo-removebg-preview.png" alt="logo">
+                                <img src="/User/images/logo/logo.png" alt="logo">
                             </a>
                         </div>
                         <p>
                             <th:block th:if="${#request.isUserInRole('USER') or #request.isUserInRole('ADMIN')}">
                                 Xin chào, <b>{{names}}</b> !!
                                 <br>
-                                <img src="{{'https://firebasestorage.googleapis.com/v0/b/webstorbook.appspot.com/o/'+form.photo+ '?alt=media&token=155d6665-5e02-42e7-9b7b-f22eb82799fa'}}"
+                               <img src="{{'https://firebasestorage.googleapis.com/v0/b/webstorbook.appspot.com/o/'+form.photo+ '?alt=media&token=155d6665-5e02-42e7-9b7b-f22eb82799fa'}}"
                                     style=" display: block; max-width: 200px; max-height: 200px; width: 200px; height: 200px; margin-left: 70px;border-radius: 80%; "
                                     alt="" id="imageuser">
                                 <br>
@@ -186,7 +186,7 @@
             <!-- End Offset MEnu -->
             <!-- Start Cart Panel -->
             <div class="shopping__cart">
-               
+                <th:block th:if="${#request.isUserInRole('USER') or #request.isUserInRole('ADMIN')}">
                     <div class="shopping__cart__inner">
                         <div class="offsetmenu__close__btn">
                             <a href="#"><i class="zmdi zmdi-close"></i></a>
@@ -207,7 +207,7 @@
                                     </a>
                                 </div>
                                 <div class="shp__pro__details">
-                                    <h2><a href="/product-details">{{i.products.name}}</a></h2>                   
+                                    <h2><a href="/product-details">{{i.products.name}}</a></h2>
                                     <span class="quantity">{{i.quantity}}</span>
                                     <span class="shp__price">{{i.realPrice | currency:"":0}}</span>
                                 </div>
@@ -228,14 +228,22 @@
                             </li>
                         </ul>
                         <ul class="shopping__btn">
-                            <li><a href="/cart">Giỏ hàng </a></li>
-                            <!-- <li><a href="/cart">View Cart</a></li> -->    
-                            <li><a ng-click="clear()">Xóa giỏ hàng</a></li>
-                              
+                            <li><a href="/cart">View Cart </a></li>
+                            <!-- <li><a href="/cart">View Cart</a></li> -->
+                            <li class="shp__checkout"><a href="/order">Order</a></li>
                         </ul>
                     </div>
-               
-               
+                </th:block>
+                <th:block th:unless="${#request.isUserInRole('USER') or #request.isUserInRole('ADMIN')}">
+                    <div class="shopping__cart__inner">
+                        <div class="offsetmenu__close__btn">
+                            <a href="#"><i class="zmdi zmdi-close"></i></a>
+                        </div>
+                        <ul class="shopping__btn">
+                            <li class="shp__checkout"><a href="/auth/login/form">Bạn chưa đăng nhập</a></li>
+                        </ul>
+                    </div>
+                </th:block>
             </div>
         </div>
     </nav>

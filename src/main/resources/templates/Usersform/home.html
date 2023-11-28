@@ -85,7 +85,7 @@
                                     
                                     <!--      cấu trúc kiểm tra điều kiện trong Thymeleaf. Nội dung bên trong thẻ <th:block> 
               chỉ được thực hiện khi điều kiện ${#request.isUserInRole('USER')} là đúng, tức là người dùng hiện tại có vai trò "USER".     -->
-                                 <!--    <th:block th:unless="${#request.isUserInRole('USER')}">
+                                    <th:block th:unless="${#request.isUserInRole('USER')}">
                                         <div class="product__hover__info">
                                             <ul class="product__action" style="color: red;">
                                                 <a href="/auth/login/form">Chưa Đăng Nhập</a>
@@ -93,7 +93,7 @@
                                         </div>
 
                                     </th:block>
-                                     -->
+                                     
                                 </div>
                                 <div class="product__details">
                                     <h2><a>{{item.name}}</a></h2>
