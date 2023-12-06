@@ -49,7 +49,6 @@ public class Account implements Serializable {
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "accountoder", fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.SAVE_UPDATE })
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	Set<Order> order;
 

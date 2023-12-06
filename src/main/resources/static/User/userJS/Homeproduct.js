@@ -2,24 +2,24 @@ var myapp = angular.module("app", []);
 let hostHome = "http://localhost:8080/restProduct/products";
 
 myapp.controller("ctrlHome", function($scope, $http) {
-	// Khởi tạo các biến dữ liệu
 	$scope.items = [];
 	$scope.itemcate = [];
 	$scope.cartItems = [];
 	$scope.show = {};
+	
 	/*Hàm load_all để tải danh sách sản phẩm:*/
 	$scope.load_all = function() {
 		$http.get(`${hostHome}`).then(resp => {
-			$scope.items = resp.data; // Gán dữ liệu sản phẩm từ phản hồi server vào biến $scope.items
+			$scope.items = resp.data; 
 			$scope.items.forEach(item => {
-				item.enteredDate = new Date(item.enteredDate); // Chuyển đổi định dạng ngày thành đối tượng ngày
+				item.enteredDate = new Date(item.enteredDate); 
 			});
 		});
 	}
 
 	/* Hàm getAmount để tính giá sau khi giảm giá:*/
 	$scope.getAmount = function(unitPrice, discount) {
-		return unitPrice * ((100 - discount) / 100); // Tính giá sau khi áp dụng giảm giá
+		return unitPrice * ((100 - discount) / 100); 
 	}
 
 
@@ -40,7 +40,7 @@ myapp.controller("ctrlHome", function($scope, $http) {
 	$scope.views = function(productID) {
 		var url = `${hostHome}/${productID}`;
 		$http.get(url).then(resp => {
-			$scope.show = resp.data; // Gán thông tin sản phẩm vào biến $scope.show để hiển thị
+			$scope.show = resp.data; 
 		}).catch(error => console.log("Error", error));
 	}
 
@@ -49,7 +49,7 @@ myapp.controller("ctrlHome", function($scope, $http) {
 	$scope.loadcate = function() {
 		var url = `http://localhost:8080/categoryRest/categories`
 		$http.get(url).then(resp => {
-			$scope.itemcate = resp.data; // Gán dữ liệu danh mục sản phẩm từ phản hồi server vào biến $scope.itemcate
+			$scope.itemcate = resp.data; 
 		}).catch(error => {
 
 		});
@@ -59,7 +59,7 @@ myapp.controller("ctrlHome", function($scope, $http) {
 	$scope.productincate = function(categoryID) {
 		var url = `http://localhost:8080/restProduct/category/${categoryID}`
 		$http.get(url).then(resp => {
-			$scope.items = resp.data; // Gán dữ liệu sản phẩm từ phản hồi server vào biến $scope.items
+			$scope.items = resp.data; 
 		}).catch(error => {
 
 		});
@@ -75,10 +75,9 @@ myapp.controller("ctrlHome", function($scope, $http) {
 			if (user) {
 				$http.get(`${urlcartitems}/${user}`).then(resitem => {
 					$scope.itemcart = resitem.data;
+					
 					var urlproduct = `${hostHome}/${productID}`;
-
 					$http.get(urlproduct).then(resproduct => {
-
 						$scope.product = resproduct.data;
 
 						//cart
@@ -125,6 +124,7 @@ myapp.controller("ctrlHome", function($scope, $http) {
 						})
 					});
 				});
+				
 				var urlproduct = `${hostHome}/${productID}`;
 				$http.get(urlproduct).then(resproduct => {
 					$scope.product = resproduct.data;
@@ -225,19 +225,19 @@ myapp.controller("ctrlHome", function($scope, $http) {
 		size: 8,
 		get items() {
 			var start = this.page * this.size;
-			return $scope.items.slice(start, start + this.size); // Trả về danh sách sản phẩm theo trang hiện tại
+			return $scope.items.slice(start, start + this.size); 
 		},
 		get count() {
-			return Math.ceil(1.0 * $scope.items.length / this.size); // Tính số lượng trang
+			return Math.ceil(1.0 * $scope.items.length / this.size); 
 		},
 		loadmore() {
-			this.size += 8; // Tăng số lượng sản phẩm trên mỗi trang
-			$scope.load_all(); // Tải lại danh sách sản phẩm
+			this.size += 8;
+			$scope.load_all(); 
 		}
 	}
 
 	/*Gọi hàm để tải dữ liệu ban đầu:*/
-	$scope.loadcate(); // Tải danh mục sản phẩm ban đầu
-	$scope.load_all(); // Tải danh sách sản phẩm ban đầu
+	$scope.loadcate(); 
+	$scope.load_all(); 
 
 });

@@ -12,7 +12,7 @@ myapp.controller("ctrlLogin",function($scope, $http,$timeout){
     $scope.counter = 60;
     $scope.onTimeout = function(){
         $scope.counter--;
-        var mytimeout = $timeout($scope.onTimeout,1000);
+        var mytimeout = $timeout($scope.onTimeout,10000);
         if($scope.counter == 0){
             $timeout.cancel(mytimeout);
                 $scope.message = "Mã OTP đã hết hiệu lực";

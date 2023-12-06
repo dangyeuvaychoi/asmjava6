@@ -1,13 +1,11 @@
 myapp.controller("ctrlcartDetail", function($scope, $http,$window) {
-	// Khởi tạo các biến dữ liệu
-	$scope.detail = []; // Danh sách chi tiết sản phẩm trong giỏ hàng
-	$scope.items = []; // Danh sách sản phẩm
-	$scope.itemcart = {}; // Thông tin giỏ hàng
-	$scope.price = {}; // Biến giá
+	$scope.detail = []; 
+	$scope.items = []; 
+	$scope.itemcart = {}; 
+	$scope.price = {}; 
 
 	/* Hàm logout để đăng xuất */
 	$scope.logout = function() {
-		// Hiển thị hộp thoại xác nhận đăng xuất bằng thư viện SweetAlert2
 		Swal.fire({
 			position: 'top-end',
 			title: ' <br>Bạn Muốn Đăng Xuất?<br><br> <a class="btn btn-primary" href="/auth/logoff"> Đăng Xuất</a>',
@@ -18,14 +16,13 @@ myapp.controller("ctrlcartDetail", function($scope, $http,$window) {
 	/* Hàm viewItems để hiển thị sản phẩm trong giỏ hàng */
 	$scope.viewItems = function() {
 		var user = $("#usernameCart").text();
-		var cartItems = sessionStorage.getItem('cartItems'); // Lấy tên người dùng từ giao diện
+		var cartItems = sessionStorage.getItem('cartItems'); 
 		if (user) {
-			// Gửi yêu cầu GET để lấy thông tin giỏ hàng của người dùng
 			$http.get(`http://localhost:8080/CartItem/cartItems/${user}`).then(resitem => {
-				$scope.itemcart = resitem.data; // Lưu thông tin giỏ hàng vào biến $scope.itemcart
+				$scope.itemcart = resitem.data; 
 				console.log($scope.itemcart);
 				$http.get(`http://localhost:8080/CartItem/cartItemDetail/${$scope.itemcart.cartID}`).then(rescartDetail => {
-					$scope.detail = rescartDetail.data; // Lưu danh sách chi tiết sản phẩm vào biến $scope.detail
+					$scope.detail = rescartDetail.data;
 
 				});
 			});
@@ -54,21 +51,18 @@ myapp.controller("ctrlcartDetail", function($scope, $http,$window) {
 				$scope.detail.splice(index, 1);
 
 			}).catch(error => {
-				console.error('Error:', error); // Log the error to the console
+				console.error('Error:', error); 
 			});
 		} else {
 			var index = $scope.detail.findIndex(item => item.cartDetailID == cartDetailID);
 			if (index !== -1) {
-				var product = $scope.detail.splice(index, 1)[0]; // Lấy sản phẩm đã xóa
+				var product = $scope.detail.splice(index, 1)[0]; 
 				var cartItems = JSON.parse(sessionStorage.getItem('cartItems')) || [];
 				console.log(user);
-				// Tìm index của sản phẩm trong mảng cartItems
 				var cartIndex = cartItems.findIndex(item => item.cartDetailID == cartDetailID);
 				if (cartIndex !== -1) {
-					cartItems.splice(cartIndex, 1); // Xóa sản phẩm khỏi mảng cartItems
+					cartItems.splice(cartIndex, 1); 
 				}
-
-				// Lưu mảng cartItems trở lại vào sessionStorage
 				sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
 
 				$scope.viewItems.views();
@@ -118,31 +112,29 @@ myapp.controller("ctrlcartDetail", function($scope, $http,$window) {
 	}
 	// Hàm uploadImages để tải lên ảnh
 	$scope.uploadImages = function() {
-		const ref = firebase.storage().ref(); // Lấy tham chiếu tới lưu trữ Firebase
-		const file = document.querySelector('#photo').files[0]; // Lấy tập tin ảnh từ trường input
+		const ref = firebase.storage().ref(); 
+		const file = document.querySelector('#photo').files[0]; 
 		const metadata = {
 			contentType: file.type
 		};
 
-		const name = file.name; // Lấy tên tập tin
-		const uploadIMG = ref.child(name).put(file, metadata); // Tải tập tin lên lưu trữ Firebase với tên tập tin và dữ liệu metadata
+		const name = file.name; 
+		const uploadIMG = ref.child(name).put(file, metadata); 
 
 		uploadIMG
-			.then(snapshot => snapshot.ref.getDownloadURL()) // Lấy đường dẫn URL của tập tin đã tải lên
+			.then(snapshot => snapshot.ref.getDownloadURL()) 
 			.then(url => {
-				console.log(url); // Hiển thị URL của ảnh trong console
-				// Sử dụng thư viện SweetAlert2 để hiển thị thông báo thành công với ảnh và tiêu đề
+				console.log(url); 
 				Swal.fire({
 					title: 'Upload thành công',
 					text: '',
-					imageUrl: url, // Đường dẫn ảnh để hiển thị
+					imageUrl: url, 
 					imageWidth: 400,
 					imageHeight: 400,
 					imageAlt: 'Custom image',
 				});
 			})
 			.catch(error => {
-				// Nếu có lỗi, hiển thị thông báo lỗi bằng thư viện SweetAlert2
 				Swal.fire(
 					'Error',
 					'Bạn đã gặp lỗi khi upload ảnh :(',
@@ -152,31 +144,30 @@ myapp.controller("ctrlcartDetail", function($scope, $http,$window) {
 	}
 	// Hàm dùng để hiển thị thông tin người dùng hiện tại và chỉnh thông tin người dùng
 	$scope.edit = function() {
-		var user = $("#useredit").text(); // Lấy thông tin người dùng hiện tại
+		var user = $("#useredit").text(); 
 		var url = `http://localhost:8080/restAccount/accountss/${user}`;
 		$http.get(url).then(resp => {
-			$scope.form = resp.data; // Gán thông tin người dùng cho biến $scope.form để hiển thị và chỉnh sửa
-			$scope.names = resp.data.name; // Gán tên người dùng cho biến $scope.names để hiển thị
+			$scope.form = resp.data; 
+			$scope.names = resp.data.name; 
 		}).catch(error => console.log("Error", error));
 	}
 
 	// Hàm changepass để đổi mật khẩu
 	$scope.changepass = function() {
-		var item = angular.copy($scope.form); // Tạo bản sao của thông tin người dùng để chỉnh sửa
-		var pass = $("#oldpass").text(); // Lấy mật khẩu cũ từ HTML
+		var item = angular.copy($scope.form); 
+		var pass = $("#oldpass").text(); 
 
 		if (angular.equals($scope.change.password, pass) && angular.equals($scope.change.newpassword, $scope.change.confirmpassword) && $scope.change.newpassword.length >= 6) {
-			// Kiểm tra mật khẩu cũ, mật khẩu mới và xác nhận mật khẩu mới, đồng thời kiểm tra độ dài mật khẩu mới
 			var url = `http://localhost:8080/restAccount/accounts/${item.email}`;
-			item.password = $scope.change.confirmpassword; // Gán mật khẩu mới cho người dùng
+			item.password = $scope.change.confirmpassword; 
 			$http.put(url, item).then(resp => {
 				Toast.fire({
 					icon: 'success',
 					title: 'Cập Nhật thành công'
 				});
 				var index = $scope.items.findIndex(item => item.email == $scope.form.email);
-				$scope.items[index] = resp.data; // Cập nhật thông tin người dùng trong danh sách
-				$scope.edit(); // Hiển thị thông tin người dùng đã cập nhật
+				$scope.items[index] = resp.data; 
+				$scope.edit(); 
 			}).catch(error => {
 
 			});
@@ -212,12 +203,12 @@ myapp.controller("ctrlcartDetail", function($scope, $http,$window) {
 	//       Hàm imageChangeInfoUser để thay đổi ảnh người dùng
 	$scope.imageChangeInfoUser = function(files) {
 		var data = new FormData();
-		data.append('file', files[0]); // Gắn tập tin ảnh vào dữ liệu FormData
+		data.append('file', files[0]); 
 		$http.post(`http://localhost:8080/rest/upload/imageAccount`, data, {
 			transformRequest: angular.identity,
 			headers: { 'Content-Type': undefined }
 		}).then(res => {
-			$scope.form.photo = res.data.name; // Gán tên ảnh mới cho thông tin người dùng
+			$scope.form.photo = res.data.name; 
 		}).catch(error => {
 			Swal.fire(
 				'Error',
@@ -229,10 +220,9 @@ myapp.controller("ctrlcartDetail", function($scope, $http,$window) {
 
 	// Hàm update để cập nhật thông tin người dùng
 	$scope.update = function() {
-		var item = angular.copy($scope.form); // Tạo bản sao của thông tin người dùng để cập nhật
-		var name = document.getElementById("photo").value.split('\\').pop(); // Lấy tên tập tin ảnh từ đường dẫn
-
-		item.photo = name; // Gán tên ảnh mới cho thông tin người dùng
+		var item = angular.copy($scope.form); 
+		var name = document.getElementById("photo").value.split('\\').pop(); 
+		item.photo = name; 
 		var url = `http://localhost:8080/restAccount/accounts/${$scope.form.email}`;
 		$http.put(url, item).then(resp => {
 			Toast.fire({
@@ -240,8 +230,8 @@ myapp.controller("ctrlcartDetail", function($scope, $http,$window) {
 				title: 'Cập Nhật thành công'
 			});
 			var index = $scope.items.findIndex(item => item.email == $scope.form.email);
-			$scope.items[index] = resp.data; // Cập nhật thông tin người dùng trong danh sách
-			$scope.edit(); // Hiển thị thông tin người dùng đã cập nhật
+			$scope.items[index] = resp.data; 
+			$scope.edit(); 
 		}).catch(error => {
 
 		});

@@ -99,8 +99,7 @@
                                     <h2><a>{{item.name}}</a></h2>
                                     <ul class="product__price">
                                         <li class="old__price" ng-if="item.discount!=0">{{item.unitPrice | currency:"":0}} VND</li>
-                                        <li class="new__price">{{getAmount(item.unitPrice,item.discount) |
-                                            currency:"":0}} VND</li>
+                                        <li class="new__price">{{getAmount(item.unitPrice,item.discount) | currency:"":0}} VND</li>
                                     </ul>
                                 </div>
                             </div>
